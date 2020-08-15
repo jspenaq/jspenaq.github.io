@@ -1,9 +1,9 @@
 {
-  "title": "Delog",
-  "siteUrl": "https://delog-w3layouts.netlify.com/",
-  "description": "Delog, a GatsbyJS and Netlify CMS starter for Designers and Developers",
+  "title": "Juan Sebastian Peña",
+  "siteUrl": "https://jspenaq.github.io/",
+  "description": "Juan Sebastian Peña Quintero, portafolio digital de proyectos relacionados a la ciencia de datos, el machine learning y scripts en python",
   "home": {
-    "title": "Hi! I'm Delog",
-    "description": "I have been specifically designed to become a digital home for designers and developers, help them build amazing professional looking websites with ease. You don't have to worry about nitty gritty of web hosting services to run a blog and yet take full advantage of CMS to manage content :)"
+    "title": "Juan Sebastian Peña - Portafolio",
+    "description": "Bienvenido a mi portafolio digital, aquí encontrarás proyectos relacionados a la ciencia de datos, el machine learning, las bases de datos y demas script creados por mi en Python y JavaScript."
   }
 }
