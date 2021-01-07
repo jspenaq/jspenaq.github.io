@@ -1,6 +1,6 @@
 ---
 template: BlogPost
-path: /new-post
+path: /dynamic-wallpaper
 date: 2020-08-15T18:00:00Z
 title: Dynamic-wallpaper
 thumbnail: /assets/image-4.jpg
