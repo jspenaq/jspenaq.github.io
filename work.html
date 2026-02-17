@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>All Work · Juan Sebastián Peña</title>
+  <meta name="description" content="Complete portfolio of projects - Fullstack, AI, and Security work." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black: #0a0a0a;
+      --white: #f5f0e8;
+      --yellow: #f5e642;
+      --red: #ff3b30;
+      --green: #28c840;
+      --blue: #007aff;
+      --border: 2.5px solid #0a0a0a;
+      --shadow: 4px 4px 0px #0a0a0a;
+      --shadow-lg: 7px 7px 0px #0a0a0a;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--white);
+      color: var(--black);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--black);
+      color: var(--white);
+      padding: 14px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: var(--border);
+    }
+    .nav-logo {
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--yellow);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+    .nav-links a {
+      color: var(--white);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--yellow); }
+    .nav-links a.active { color: var(--yellow); }
+    .nav-cta {
+      background: var(--yellow) !important;
+      color: var(--black) !important;
+      padding: 8px 18px;
+      border: var(--border);
+      font-weight: 700 !important;
+      box-shadow: 2px 2px 0 var(--white);
+      transition: transform 0.1s, box-shadow 0.1s !important;
+    }
+    .nav-cta:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 4px 4px 0 var(--white) !important;
+    }
+
+    /* PAGE HEADER */
+    .page-header {
+      padding: 56px 40px;
+      border-bottom: var(--border);
+    }
+    .page-title {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+    .page-subtitle {
+      font-size: 1.15rem;
+      color: #4a4a4a;
+      max-width: 600px;
+    }
+
+    /* BENTO GRID */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      grid-auto-rows: 280px;
+      gap: 0;
+    }
+
+    .bento-card {
+      padding: 32px;
+      border-right: var(--border);
+      border-bottom: var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: background 0.2s;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+      overflow: hidden;
+    }
+    .bento-card:hover { background: #f0ebe0; }
+
+    /* Grid positioning for featured (large) cards */
+    .bento-card.large {
+      grid-column: span 2;
+      grid-row: span 2;
+      padding: 40px;
+    }
+    .bento-card.wide {
+      grid-column: span 2;
+    }
+    .bento-card.tall {
+      grid-row: span 2;
+    }
+
+    /* Remove borders on edges */
+    .bento-card:nth-child(6n) { border-right: none; }
+
+    .work-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border: 1.5px solid var(--black);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .tag-security { background: var(--red); color: var(--white); border-color: var(--red); }
+    .tag-ai { background: var(--blue); color: var(--white); border-color: var(--blue); }
+    .tag-backend { background: var(--black); color: var(--white); }
+    .tag-frontend { background: var(--yellow); color: var(--black); border-color: var(--yellow); }
+    .tag-oss { background: var(--green); color: var(--white); border-color: var(--green); }
+    .tag-devops { background: #ff6b35; color: var(--white); border-color: #ff6b35; }
+
+    .work-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+    .bento-card.large .work-title { font-size: 2rem; }
+
+    .work-desc {
+      font-size: 0.9rem;
+      color: #4a4a4a;
+      line-height: 1.6;
+      flex-grow: 1;
+    }
+    .bento-card.large .work-desc { font-size: 1rem; }
+
+    .work-evidence {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--yellow);
+      border: var(--border);
+      padding: 5px 12px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 700;
+      width: fit-content;
+      box-shadow: 2px 2px 0 var(--black);
+    }
+    .work-meta {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-top: auto;
+      padding-top: 12px;
+      border-top: 1.5px solid #ddd;
+    }
+    .work-link {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--black);
+      text-decoration: none;
+      font-weight: 700;
+      transition: color 0.15s;
+    }
+    .work-link:hover { color: var(--blue); }
+    .work-link::after { content: ' →'; }
+
+    /* FOOTER */
+    footer {
+      background: var(--black);
+      color: var(--white);
+      padding: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 24px;
+      border-top: var(--border);
+    }
+    .footer-logo {
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      color: var(--yellow);
+      font-size: 0.95rem;
+    }
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+    .footer-links a {
+      color: #888;
+      text-decoration: none;
+      font-size: 0.82rem;
+      transition: color 0.15s;
+    }
+    .footer-links a:hover { color: var(--yellow); }
+    .footer-copy {
+      font-size: 0.78rem;
+      color: #555;
+      font-family: 'Space Mono', monospace;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .bento-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: auto;
+      }
+      .bento-card {
+        grid-column: span 1 !important;
+        grid-row: span 1 !important;
+        border-right: none;
+        min-height: 280px;
+      }
+      .bento-card:last-child { border-bottom: none; }
+      .page-header { padding: 40px 28px; }
+      footer { flex-direction: column; text-align: center; }
+      .nav-links { gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-logo">jspenaq</a>
+    <ul class="nav-links">
+      <li><a href="work.html" class="active">Work</a></li>
+      <li><a href="https://jspenaq.dev" target="_blank">Security Consulting</a></li>
+      <li><a href="https://github.com/jspenaq" target="_blank">GitHub</a></li>
+      <li><a href="https://linkedin.com/in/juan-sebastian-peña-quintero" target="_blank" class="nav-cta">LinkedIn →</a></li>
+    </ul>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <section class="page-header">
+    <h1 class="page-title">All Work</h1>
+    <p class="page-subtitle">
+      A selection of projects spanning fullstack development, AI/ML systems, 
+      security research, and open source contributions.
+    </p>
+  </section>
+
+  <!-- BENTO GRID -->
+  <div class="bento-grid">
+
+    <!-- FEATURED 1: LolSapiens (Large) -->
+    <a href="work/lolsapiens.html" class="bento-card large">
+      <div class="work-tags">
+        <span class="tag tag-frontend">Frontend</span>
+        <span class="tag tag-backend">Backend</span>
+        <span class="tag tag-ai">AI</span>
+        <span class="tag tag-oss">OSS</span>
+      </div>
+      <h3 class="work-title">LolSapiens</h3>
+      <p class="work-desc">
+        Desktop app for League of Legends with AI-powered build recommendations.
+        Cross-platform (Windows, macOS) built with Python backend, React + TypeScript frontend,
+        and packaged with Electron. Fetches real-time game data and provides strategic insights.
+      </p>
+      <div class="work-evidence">⭐ 8 stars · 5 forks · GPL-3.0</div>
+      <div class="work-meta">
+        <a href="https://github.com/jspenaq/LolSapiens" class="work-link" onclick="event.stopPropagation()">GitHub</a>
+        <a href="work/lolsapiens.html" class="work-link" onclick="event.stopPropagation()">Case study</a>
+      </div>
+    </a>
+
+    <!-- FEATURED 2: docker-ai (Large) -->
+    <a href="work/docker-ai.html" class="bento-card large">
+      <div class="work-tags">
+        <span class="tag tag-ai">AI</span>
+        <span class="tag tag-devops">DevOps</span>
+        <span class="tag tag-oss">OSS</span>
+      </div>
+      <h3 class="work-title">docker-ai</h3>
+      <p class="work-desc">
+        Production-ready Docker environments for AI/ML workflows with GPU support.
+        Pre-configured containers for model training, inference, and deployment.
+        Includes Jupyter, PyTorch, TensorFlow, and common ML libraries.
+      </p>
+      <div class="work-evidence">Impact: 70% faster deployment</div>
+      <div class="work-meta">
+        <a href="https://github.com/jspenaq/docker-ai" class="work-link" onclick="event.stopPropagation()">GitHub</a>
+        <a href="work/docker-ai.html" class="work-link" onclick="event.stopPropagation()">Case study</a>
+      </div>
+    </a>
+
+    <!-- FEATURED 3: PokeCoach (Wide) -->
+    <a href="work/pokecoach.html" class="bento-card wide">
+      <div class="work-tags">
+        <span class="tag tag-ai">AI</span>
+        <span class="tag tag-backend">Backend</span>
+      </div>
+      <h3 class="work-title">PokeCoach</h3>
+      <p class="work-desc">
+        AI-powered Pokemon battle strategy assistant using LLMs for real-time analysis
+        and recommendations in competitive play.
+      </p>
+      <div class="work-evidence">Latest: Feb 2026</div>
+      <div class="work-meta">
+        <a href="https://github.com/jspenaq/PokeCoach" class="work-link" onclick="event.stopPropagation()">GitHub</a>
+        <a href="work/pokecoach.html" class="work-link" onclick="event.stopPropagation()">Case study</a>
+      </div>
+    </a>
+
+    <!-- DataSeed -->
+    <a href="work/dataseed.html" class="bento-card">
+      <div class="work-tags">
+        <span class="tag tag-backend">Backend</span>
+        <span class="tag tag-oss">OSS</span>
+      </div>
+      <h3 class="work-title">DataSeed</h3>
+      <p class="work-desc">
+        Python library for generating realistic test data for databases and APIs.
+      </p>
+      <div class="work-evidence">MIT License</div>
+      <div class="work-meta">
+        <a href="https://github.com/jspenaq/DataSeed" class="work-link" onclick="event.stopPropagation()">GitHub</a>
+      </div>
+    </a>
+
+    <!-- Kratio -->
+    <a href="work/kratio.html" class="bento-card">
+      <div class="work-tags">
+        <span class="tag tag-backend">Backend</span>
+        <span class="tag tag-oss">OSS</span>
+      </div>
+      <h3 class="work-title">Kratio</h3>
+      <p class="work-desc">
+        CLI tool for keyword density analysis in local files. SEO and content optimization.
+      </p>
+      <div class="work-evidence">Python · NLP</div>
+      <div class="work-meta">
+        <a href="https://github.com/jspenaq/Kratio" class="work-link" onclick="event.stopPropagation()">GitHub</a>
+      </div>
+    </a>
+
+    <!-- hltb (Wide) -->
+    <a href="work/hltb.html" class="bento-card wide">
+      <div class="work-tags">
+        <span class="tag tag-backend">Backend</span>
+        <span class="tag tag-oss">OSS</span>
+      </div>
+      <h3 class="work-title">hltb</h3>
+      <p class="work-desc">
+        Modern Python API wrapper for HowLongToBeat (HLTB). Clean, async interface
+        for querying game completion times.
+      </p>
+      <div class="work-evidence">MIT License · API</div>
+      <div class="work-meta">
+        <a href="https://github.com/jspenaq/hltb" class="work-link" onclick="event.stopPropagation()">GitHub</a>
+      </div>
+    </a>
+
+    <!-- aoty -->
+    <a href="work/aoty.html" class="bento-card">
+      <div class="work-tags">
+        <span class="tag tag-backend">Backend</span>
+        <span class="tag tag-oss">OSS</span>
+      </div>
+      <h3 class="work-title">aoty</h3>
+      <p class="work-desc">
+        Python API for Album of The Year. Web scraping and data extraction for music metadata.
+      </p>
+      <div class="work-evidence">MIT License</div>
+      <div class="work-meta">
+        <a href="https://github.com/jspenaq/aoty" class="work-link" onclick="event.stopPropagation()">GitHub</a>
+      </div>
+    </a>
+
+    <!-- Dynamic-wallpaper (Tall) -->
+    <a href="work/dynamic-wallpaper.html" class="bento-card tall">
+      <div class="work-tags">
+        <span class="tag tag-backend">Backend</span>
+        <span class="tag tag-oss">OSS</span>
+      </div>
+      <h3 class="work-title">Dynamic Wallpaper</h3>
+      <p class="work-desc">
+        Python script that automatically changes Windows desktop wallpaper based on
+        weather and time of day. Uses weather APIs and local system integration.
+      </p>
+      <div class="work-evidence">⭐ 2 stars · 1 fork</div>
+      <div class="work-meta">
+        <a href="https://github.com/jspenaq/Dynamic-wallpaper" class="work-link" onclick="event.stopPropagation()">GitHub</a>
+      </div>
+    </a>
+
+    <!-- Mandy -->
+    <a href="work/mandy.html" class="bento-card">
+      <div class="work-tags">
+        <span class="tag tag-backend">Backend</span>
+        <span class="tag tag-frontend">Frontend</span>
+      </div>
+      <h3 class="work-title">Mandy</h3>
+      <p class="work-desc">
+        Testing app built with NestJS backend. Exploring modern TypeScript patterns and API design.
+      </p>
+      <div class="work-evidence">⭐ 1 star · NestJS</div>
+      <div class="work-meta">
+        <a href="https://github.com/jspenaq/Mandy" class="work-link" onclick="event.stopPropagation()">GitHub</a>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-logo">jspenaq</span>
+    <ul class="footer-links">
+      <li><a href="work.html">Work</a></li>
+      <li><a href="https://jspenaq.dev" target="_blank">Consulting</a></li>
+      <li><a href="https://github.com/jspenaq" target="_blank">GitHub</a></li>
+      <li><a href="https://linkedin.com/in/juan-sebastian-peña-quintero" target="_blank">LinkedIn</a></li>
+    </ul>
+    <span class="footer-copy">© 2026 Juan Sebastián Peña</span>
+  </footer>
+
+</body>
+</html>

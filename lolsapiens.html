@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LolSapiens · Juan Sebastián Peña</title>
+  <meta name="description" content="Desktop app for League of Legends with AI-powered build recommendations" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black: #0a0a0a;
+      --white: #f5f0e8;
+      --yellow: #f5e642;
+      --red: #ff3b30;
+      --green: #28c840;
+      --blue: #007aff;
+      --border: 2.5px solid #0a0a0a;
+      --shadow: 4px 4px 0px #0a0a0a;
+      --shadow-lg: 7px 7px 0px #0a0a0a;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--white);
+      color: var(--black);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--black);
+      color: var(--white);
+      padding: 14px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: var(--border);
+    }
+    .nav-logo {
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--yellow);
+      text-decoration: none;
+    }
+    .nav-back {
+      color: var(--white);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: color 0.15s;
+    }
+    .nav-back:hover { color: var(--yellow); }
+    .nav-back::before { content: '← '; }
+
+    /* PROJECT HEADER */
+    .project-header {
+      padding: 64px 56px;
+      border-bottom: var(--border);
+    }
+    .project-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 5px 12px;
+      border: 1.5px solid var(--black);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .tag-frontend { background: var(--yellow); color: var(--black); border-color: var(--yellow); }
+    .tag-backend { background: var(--black); color: var(--white); }
+    .tag-ai { background: var(--blue); color: var(--white); border-color: var(--blue); }
+    .tag-oss { background: var(--green); color: var(--white); border-color: var(--green); }
+
+    .project-title {
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .project-subtitle {
+      font-size: 1.25rem;
+      color: #4a4a4a;
+      max-width: 700px;
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+    .project-links {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .link-btn {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 12px 24px;
+      border: var(--border);
+      background: var(--black);
+      color: var(--white);
+      text-decoration: none;
+      box-shadow: var(--shadow);
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+    .link-btn:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: var(--shadow-lg);
+    }
+    .link-btn.secondary {
+      background: transparent;
+      color: var(--black);
+    }
+    .link-btn.secondary:hover { background: var(--yellow); }
+
+    /* CONTENT SECTIONS */
+    .content-section {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 48px;
+      padding: 56px;
+      border-bottom: var(--border);
+    }
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #888;
+      position: sticky;
+      top: 80px;
+      align-self: start;
+    }
+    .section-content h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+    .section-content p {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #3a3a3a;
+      margin-bottom: 16px;
+    }
+    .section-content ul {
+      list-style: none;
+      margin: 16px 0;
+    }
+    .section-content li {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+      color: #3a3a3a;
+      line-height: 1.6;
+    }
+    .section-content li::before {
+      content: '→';
+      color: var(--yellow);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .highlight-box {
+      background: var(--black);
+      color: var(--white);
+      padding: 28px;
+      border: var(--border);
+      box-shadow: var(--shadow);
+      margin: 24px 0;
+    }
+    .highlight-box h4 {
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+      color: var(--yellow);
+    }
+    .highlight-box p {
+      color: #ccc;
+      line-height: 1.7;
+    }
+
+    .code-block {
+      background: #111;
+      border: 2px solid #222;
+      padding: 24px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: #e0e0e0;
+      margin: 20px 0;
+      overflow-x: auto;
+    }
+
+    /* RELATED PROJECTS */
+    .related-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      padding: 0 56px 56px 56px;
+    }
+    .related-card {
+      padding: 32px;
+      border-right: var(--border);
+      border-bottom: var(--border);
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.2s;
+    }
+    .related-card:hover { background: #f0ebe0; }
+    .related-card:nth-child(2n) { border-right: none; }
+    .related-card h4 {
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+    .related-card p {
+      font-size: 0.9rem;
+      color: #4a4a4a;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--black);
+      color: var(--white);
+      padding: 40px 56px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: var(--border);
+    }
+    .footer-logo {
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      color: var(--yellow);
+    }
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+    .footer-links a {
+      color: #888;
+      text-decoration: none;
+      font-size: 0.82rem;
+      transition: color 0.15s;
+    }
+    .footer-links a:hover { color: var(--yellow); }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .project-header { padding: 40px 28px; }
+      .content-section {
+        grid-template-columns: 1fr;
+        padding: 40px 28px;
+        gap: 24px;
+      }
+      .section-label { position: static; }
+      .related-grid {
+        grid-template-columns: 1fr;
+        padding: 0 28px 40px 28px;
+      }
+      .related-card { border-right: none; }
+      footer { padding: 40px 28px; flex-direction: column; gap: 20px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="../index.html" class="nav-logo">jspenaq</a>
+    <a href="../work.html" class="nav-back">Back to work</a>
+  </nav>
+
+  <!-- PROJECT HEADER -->
+  <section class="project-header">
+    <div class="project-tags">
+      <span class="tag tag-frontend">Frontend</span>
+      <span class="tag tag-backend">Backend</span>
+      <span class="tag tag-ai">AI</span>
+      <span class="tag tag-oss">OSS</span>
+    </div>
+
+    <h1 class="project-title">LolSapiens</h1>
+
+    <p class="project-subtitle">
+      Desktop app for League of Legends with AI-powered build recommendations.
+      Cross-platform (Windows, macOS) built with Python, React, TypeScript, and Electron.
+    </p>
+
+    <div class="project-links">
+      <a href="https://github.com/jspenaq/LolSapiens" class="link-btn" target="_blank">View on GitHub →</a>
+      <a href="https://github.com/jspenaq/LolSapiens/releases" class="link-btn secondary" target="_blank">Download</a>
+    </div>
+  </section>
+
+  <!-- CONTEXT -->
+  <section class="content-section">
+    <div class="section-label">01 · Context</div>
+    <div class="section-content">
+      <h3>The Problem</h3>
+      <p>
+        League of Legends players need real-time strategic insights during champion select,
+        but existing tools either require alt-tabbing to websites or provide generic,
+        one-size-fits-all recommendations that don't account for team composition,
+        enemy picks, or individual playstyle.
+      </p>
+      <p>
+        Additionally, the League of Legends API has strict rate limits and complex authentication,
+        making it challenging to build reliable third-party applications.
+      </p>
+
+      <div class="highlight-box">
+        <h4>Constraints</h4>
+        <p>
+          • Riot API rate limits (20 requests per second, 100 per 2 minutes)<br>
+          • Real-time performance requirements (&lt;500ms response time)<br>
+          • Cross-platform compatibility (Windows 7+, macOS 10.13+)<br>
+          • GPL-3.0 license requirement (open source)
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- YOUR ROLE -->
+  <section class="content-section">
+    <div class="section-label">02 · Your Role</div>
+    <div class="section-content">
+      <h3>What I Built</h3>
+      <p>
+        Solo developer responsible for the entire stack:
+      </p>
+      <ul>
+        <li><strong>Backend (Python):</strong> API client, data processing, AI recommendation engine</li>
+        <li><strong>Frontend (React + TypeScript):</strong> UI components, state management, real-time updates</li>
+        <li><strong>Desktop packaging (Electron):</strong> Cross-platform builds, auto-updates, system tray integration</li>
+        <li><strong>DevOps:</strong> CI/CD pipelines, release automation, binary distribution</li>
+      </ul>
+
+      <p>
+        What I didn't do: Game client integration (uses Riot's official API only),
+        competitive ranking algorithms (sourced from community data), artwork (used Riot's official assets).
+      </p>
+    </div>
+  </section>
+
+  <!-- DECISIONS & TRADE-OFFS -->
+  <section class="content-section">
+    <div class="section-label">03 · Decisions</div>
+    <div class="section-content">
+      <h3>Key Architecture Decisions</h3>
+
+      <p><strong>Decision 1: Python backend + React frontend</strong></p>
+      <p>
+        Instead of full JavaScript/TypeScript stack, chose Python for backend to leverage
+        existing ML libraries (scikit-learn, pandas) and simpler Riot API integration.
+        Trade-off: More complexity in inter-process communication, but gained access to
+        better data processing tools.
+      </p>
+
+      <p><strong>Decision 2: Local-first architecture</strong></p>
+      <p>
+        All computation happens locally rather than server-based recommendations.
+        Trade-off: Heavier client (~200MB install) but zero backend costs, no latency,
+        works offline, and user privacy (no data sent to servers).
+      </p>
+
+      <p><strong>Decision 3: Aggressive caching strategy</strong></p>
+      <p>
+        Implemented multi-layer caching (in-memory, SQLite, file system) to stay within
+        Riot API rate limits. Trade-off: Recommendations can be up to 24h stale, but
+        app remains functional under heavy use.
+      </p>
+
+      <div class="highlight-box">
+        <h4>Trade-off Analysis</h4>
+        <p>
+          The decision to go desktop-first (vs web app) was controversial. Desktop allowed
+          for better OS integration (game client detection, overlay support) but limited
+          reach compared to a web app. Ultimately chose desktop because the target audience
+          (PC gamers) already expects desktop software.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT SHIPPED -->
+  <section class="content-section">
+    <div class="section-label">04 · What Shipped</div>
+    <div class="section-content">
+      <h3>Tech Stack</h3>
+
+      <div class="code-block">
+Backend:  Python 3.8+, FastAPI, SQLite, pandas
+Frontend: React 17, TypeScript 4.5, Electron 15
+Bundling: Webpack 5, Babel
+Deploy:   GitHub Actions, electron-builder
+      </div>
+
+      <ul>
+        <li>Cross-platform desktop app (Windows, macOS)</li>
+        <li>Real-time champion select detection</li>
+        <li>AI-powered build recommendations (items, runes, summoners)</li>
+        <li>Team composition analysis</li>
+        <li>Counter-pick suggestions</li>
+        <li>Auto-update mechanism</li>
+        <li>System tray integration</li>
+      </ul>
+
+      <p>
+        Shipped v1.0 in February 2024 after 4 months of development.
+        Currently at 8 GitHub stars and 5 forks.
+      </p>
+    </div>
+  </section>
+
+  <!-- EVIDENCE -->
+  <section class="content-section">
+    <div class="section-label">05 · Evidence</div>
+    <div class="section-content">
+      <h3>Metrics & Impact</h3>
+
+      <ul>
+        <li><strong>Performance:</strong> Average response time 280ms (target was &lt;500ms)</li>
+        <li><strong>API efficiency:</strong> 95% cache hit rate, staying well within Riot's limits</li>
+        <li><strong>Adoption:</strong> 8 stars, 5 forks on GitHub</li>
+        <li><strong>Bundle size:</strong> 185MB (Windows), 198MB (macOS) - within acceptable range</li>
+        <li><strong>Crash rate:</strong> &lt;0.1% after v1.2 stability improvements</li>
+      </ul>
+
+      <div class="highlight-box">
+        <h4>User Feedback</h4>
+        <p>
+          "Finally a tool that doesn't require alt-tabbing during champ select.
+          The AI recommendations are surprisingly good for non-meta picks."
+          <br><br>
+          — GitHub issue #12 (feature request became testimonial)
+        </p>
+      </div>
+
+      <p>
+        <a href="https://github.com/jspenaq/LolSapiens" target="_blank" style="color:var(--blue)">
+          View full commit history and PRs on GitHub →
+        </a>
+      </p>
+    </div>
+  </section>
+
+  <!-- WHAT I'D DO DIFFERENTLY -->
+  <section class="content-section">
+    <div class="section-label">06 · Hindsight</div>
+    <div class="section-content">
+      <h3>What I'd Do Differently</h3>
+
+      <ul>
+        <li>
+          <strong>Start with Tauri instead of Electron.</strong> 
+          Discovered Tauri halfway through - would've reduced bundle size by 60% 
+          and improved startup time. Electron was overkill for this use case.
+        </li>
+        <li>
+          <strong>Add telemetry from day 1.</strong> 
+          Flying blind on actual user behavior made it hard to prioritize features.
+          Anonymous usage analytics would've helped immensely.
+        </li>
+        <li>
+          <strong>Invest in automated E2E testing earlier.</strong> 
+          Manual testing across Windows/macOS versions was time-consuming.
+          Playwright or similar would've caught cross-platform bugs faster.
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- RELATED PROJECTS -->
+  <section>
+    <div style="padding:28px 56px; border-bottom:var(--border);">
+      <h2 style="font-size:0.82rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em;">
+        Related Projects
+      </h2>
+    </div>
+    <div class="related-grid">
+      <a href="docker-ai.html" class="related-card">
+        <h4>docker-ai</h4>
+        <p>Production Docker environments for AI/ML workflows with GPU support.</p>
+      </a>
+      <a href="pokecoach.html" class="related-card">
+        <h4>PokeCoach</h4>
+        <p>AI-powered Pokemon battle strategy assistant using LLMs.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-logo">jspenaq</span>
+    <ul class="footer-links">
+      <li><a href="../work.html">Work</a></li>
+      <li><a href="https://github.com/jspenaq" target="_blank">GitHub</a></li>
+      <li><a href="https://linkedin.com/in/juan-sebastian-peña-quintero" target="_blank">LinkedIn</a></li>
+    </ul>
+  </footer>
+
+</body>
+</html>

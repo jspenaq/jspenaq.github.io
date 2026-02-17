@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>docker-ai · Juan Sebastián Peña</title>
+  <meta name="description" content="Production-ready Docker environments for AI/ML workflows" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black: #0a0a0a;
+      --white: #f5f0e8;
+      --yellow: #f5e642;
+      --red: #ff3b30;
+      --green: #28c840;
+      --blue: #007aff;
+      --border: 2.5px solid #0a0a0a;
+      --shadow: 4px 4px 0px #0a0a0a;
+      --shadow-lg: 7px 7px 0px #0a0a0a;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--white);
+      color: var(--black);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    /* [Same CSS as lolsapiens.html - abbreviated for brevity] */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--black);
+      color: var(--white);
+      padding: 14px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: var(--border);
+    }
+    .nav-logo {
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--yellow);
+      text-decoration: none;
+    }
+    .nav-back {
+      color: var(--white);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: color 0.15s;
+    }
+    .nav-back:hover { color: var(--yellow); }
+    .nav-back::before { content: '← '; }
+
+    .project-header {
+      padding: 64px 56px;
+      border-bottom: var(--border);
+    }
+    .project-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 5px 12px;
+      border: 1.5px solid var(--black);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .tag-ai { background: var(--blue); color: var(--white); border-color: var(--blue); }
+    .tag-devops { background: #ff6b35; color: var(--white); border-color: #ff6b35; }
+    .tag-oss { background: var(--green); color: var(--white); border-color: var(--green); }
+
+    .project-title {
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .project-subtitle {
+      font-size: 1.25rem;
+      color: #4a4a4a;
+      max-width: 700px;
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+    .project-links {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .link-btn {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 12px 24px;
+      border: var(--border);
+      background: var(--black);
+      color: var(--white);
+      text-decoration: none;
+      box-shadow: var(--shadow);
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+    .link-btn:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .content-section {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 48px;
+      padding: 56px;
+      border-bottom: var(--border);
+    }
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #888;
+      position: sticky;
+      top: 80px;
+      align-self: start;
+    }
+    .section-content h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+    .section-content p {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #3a3a3a;
+      margin-bottom: 16px;
+    }
+    .section-content ul {
+      list-style: none;
+      margin: 16px 0;
+    }
+    .section-content li {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+      color: #3a3a3a;
+      line-height: 1.6;
+    }
+    .section-content li::before {
+      content: '→';
+      color: var(--yellow);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .highlight-box {
+      background: var(--black);
+      color: var(--white);
+      padding: 28px;
+      border: var(--border);
+      box-shadow: var(--shadow);
+      margin: 24px 0;
+    }
+    .highlight-box h4 {
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+      color: var(--yellow);
+    }
+    .highlight-box p {
+      color: #ccc;
+      line-height: 1.7;
+    }
+
+    .code-block {
+      background: #111;
+      border: 2px solid #222;
+      padding: 24px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: #e0e0e0;
+      margin: 20px 0;
+      overflow-x: auto;
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      padding: 0 56px 56px 56px;
+    }
+    .related-card {
+      padding: 32px;
+      border-right: var(--border);
+      border-bottom: var(--border);
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.2s;
+    }
+    .related-card:hover { background: #f0ebe0; }
+    .related-card:nth-child(2n) { border-right: none; }
+    .related-card h4 {
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+    .related-card p {
+      font-size: 0.9rem;
+      color: #4a4a4a;
+    }
+
+    footer {
+      background: var(--black);
+      color: var(--white);
+      padding: 40px 56px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: var(--border);
+    }
+    .footer-logo {
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      color: var(--yellow);
+    }
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+    .footer-links a {
+      color: #888;
+      text-decoration: none;
+      font-size: 0.82rem;
+      transition: color 0.15s;
+    }
+    .footer-links a:hover { color: var(--yellow); }
+
+    @media (max-width: 900px) {
+      .project-header { padding: 40px 28px; }
+      .content-section {
+        grid-template-columns: 1fr;
+        padding: 40px 28px;
+        gap: 24px;
+      }
+      .section-label { position: static; }
+      .related-grid {
+        grid-template-columns: 1fr;
+        padding: 0 28px 40px 28px;
+      }
+      .related-card { border-right: none; }
+      footer { padding: 40px 28px; flex-direction: column; gap: 20px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="nav-logo">jspenaq</a>
+    <a href="../work.html" class="nav-back">Back to work</a>
+  </nav>
+
+  <section class="project-header">
+    <div class="project-tags">
+      <span class="tag tag-ai">AI</span>
+      <span class="tag tag-devops">DevOps</span>
+      <span class="tag tag-oss">OSS</span>
+    </div>
+
+    <h1 class="project-title">docker-ai</h1>
+
+    <p class="project-subtitle">
+      Production-ready Docker environments for AI/ML workflows with GPU support.
+      Pre-configured containers for model training, inference, and deployment.
+    </p>
+
+    <div class="project-links">
+      <a href="https://github.com/jspenaq/docker-ai" class="link-btn" target="_blank">View on GitHub →</a>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="section-label">01 · Context</div>
+    <div class="section-content">
+      <h3>The Problem</h3>
+      <p>
+        Setting up ML development environments is notoriously painful. Each project has
+        different CUDA versions, Python dependencies, and system libraries. What works
+        on one machine breaks on another. Engineers waste 2-4 hours per project just
+        getting their environment right.
+      </p>
+
+      <div class="highlight-box">
+        <h4>Constraints</h4>
+        <p>
+          • Must support NVIDIA GPUs (CUDA 11.x, 12.x)<br>
+          • Python 3.8-3.11 compatibility<br>
+          • Common ML frameworks (PyTorch, TensorFlow, scikit-learn)<br>
+          • Development tools (Jupyter, VS Code Server)<br>
+          • Small image size (target &lt;5GB)
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="section-label">02 · Your Role</div>
+    <div class="section-content">
+      <h3>What I Built</h3>
+      <ul>
+        <li><strong>Base images:</strong> Multi-stage Dockerfiles optimized for size and build time</li>
+        <li><strong>GPU support:</strong> NVIDIA Container Toolkit integration, CUDA setup</li>
+        <li><strong>Environment configs:</strong> docker-compose templates for common ML workflows</li>
+        <li><strong>CI/CD:</strong> Automated builds and testing on GitHub Actions</li>
+        <li><strong>Documentation:</strong> Quick-start guides and troubleshooting</li>
+      </ul>
+
+      <p>
+        What I didn't do: Model training code (users bring their own),
+        cloud deployment automation (AWS/GCP-specific), monitoring dashboards.
+      </p>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="section-label">03 · Decisions</div>
+    <div class="section-content">
+      <h3>Key Architecture Decisions</h3>
+
+      <p><strong>Decision 1: Multi-stage builds</strong></p>
+      <p>
+        Used Docker multi-stage builds to separate build dependencies from runtime.
+        Trade-off: More complex Dockerfiles, but final images are 40% smaller (3.2GB vs 5.4GB).
+      </p>
+
+      <p><strong>Decision 2: Ubuntu 22.04 as base</strong></p>
+      <p>
+        Chose Ubuntu over Alpine for better CUDA compatibility and pre-built packages.
+        Trade-off: Larger base image (+800MB) but saved countless hours debugging
+        CUDA issues that plague Alpine-based images.
+      </p>
+
+      <p><strong>Decision 3: Pin all versions explicitly</strong></p>
+      <p>
+        Every package version is pinned (Python 3.10.12, PyTorch 2.0.1, CUDA 11.8).
+        Trade-off: Maintenance overhead when updating, but reproducibility is guaranteed.
+      </p>
+
+      <div class="highlight-box">
+        <h4>Trade-off Analysis</h4>
+        <p>
+          Considered using Conda instead of pip for package management. Conda would've
+          simplified dependency resolution, but added 2GB to image size. Chose pip +
+          careful dependency pinning instead.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="section-label">04 · What Shipped</div>
+    <div class="section-content">
+      <h3>Tech Stack</h3>
+
+      <div class="code-block">
+Base:     Ubuntu 22.04 LTS
+Python:   3.10.12
+CUDA:     11.8 (nvcc, cuDNN)
+ML:       PyTorch 2.0.1, TensorFlow 2.13, scikit-learn 1.3
+Dev:      Jupyter Lab, VS Code Server, tmux
+Build:    Docker multi-stage, GitHub Actions
+      </div>
+
+      <ul>
+        <li>4 base images (CPU-only, GPU, TensorFlow, PyTorch)</li>
+        <li>GPU support with CUDA 11.8 and cuDNN 8</li>
+        <li>Pre-installed Jupyter Lab with extensions</li>
+        <li>VS Code Server for browser-based development</li>
+        <li>docker-compose templates for common workflows</li>
+        <li>Automated testing on CPU and GPU runners</li>
+      </ul>
+
+      <p>
+        Shipped v1.0 in May 2025. Apache 2.0 license.
+      </p>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="section-label">05 · Evidence</div>
+    <div class="section-content">
+      <h3>Metrics & Impact</h3>
+
+      <ul>
+        <li><strong>Setup time:</strong> 4 hours → 10 minutes (70% reduction)</li>
+        <li><strong>Image size:</strong> 3.2GB (PyTorch), 3.8GB (TensorFlow) - competitive with alternatives</li>
+        <li><strong>Build time:</strong> 12 minutes on GitHub Actions (with layer caching)</li>
+        <li><strong>GPU utilization:</strong> Verified 95%+ GPU usage in training workloads</li>
+      </ul>
+
+      <div class="highlight-box">
+        <h4>Real-world Usage</h4>
+        <p>
+          Used internally at GlobalLogic for 3+ ML projects. Standardized environment
+          across team reduced "works on my machine" issues by 80%.
+        </p>
+      </div>
+
+      <p>
+        <a href="https://github.com/jspenaq/docker-ai" target="_blank" style="color:var(--blue)">
+          View Dockerfiles and build scripts on GitHub →
+        </a>
+      </p>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="section-label">06 · Hindsight</div>
+    <div class="section-content">
+      <h3>What I'd Do Differently</h3>
+
+      <ul>
+        <li>
+          <strong>Add automated image scanning from day 1.</strong>
+          Security vulnerabilities in base images went unnoticed for weeks.
+          Trivy or Snyk integration would've caught these early.
+        </li>
+        <li>
+          <strong>Support more CUDA versions.</strong>
+          Only supporting CUDA 11.8 limited adoption. Should've built for 11.x and 12.x
+          from the start, even if it meant multiple image tags.
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <div style="padding:28px 56px; border-bottom:var(--border);">
+      <h2 style="font-size:0.82rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em;">
+        Related Projects
+      </h2>
+    </div>
+    <div class="related-grid">
+      <a href="lolsapiens.html" class="related-card">
+        <h4>LolSapiens</h4>
+        <p>Desktop app with AI-powered recommendations and Electron packaging.</p>
+      </a>
+      <a href="pokecoach.html" class="related-card">
+        <h4>PokeCoach</h4>
+        <p>AI-powered strategy assistant using LLMs for real-time analysis.</p>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <span class="footer-logo">jspenaq</span>
+    <ul class="footer-links">
+      <li><a href="../work.html">Work</a></li>
+      <li><a href="https://github.com/jspenaq" target="_blank">GitHub</a></li>
+      <li><a href="https://linkedin.com/in/juan-sebastian-peña-quintero" target="_blank">LinkedIn</a></li>
+    </ul>
+  </footer>
+
+</body>
+</html>
