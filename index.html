@@ -52,6 +52,24 @@
       text-decoration: none;
     }
     .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+    .nav-toggle {
+      display: none;
+      background: var(--yellow);
+      color: var(--black);
+      border: var(--border);
+      box-shadow: 2px 2px 0 var(--white);
+      padding: 8px 12px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .nav-toggle:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0 var(--white);
+    }
     .nav-links a {
       color: var(--white);
       text-decoration: none;
@@ -517,6 +535,45 @@
 
     /* RESPONSIVE */
     @media (max-width: 900px) {
+      nav {
+        padding: 12px 16px;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .nav-logo {
+        font-size: 0.95rem;
+      }
+      .nav-toggle {
+        display: inline-flex;
+        align-items: center;
+        margin-left: auto;
+      }
+      .nav-links {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        border-top: var(--border);
+        padding-top: 12px;
+      }
+      .nav-links.is-open {
+        display: flex;
+      }
+      .nav-links li {
+        width: 100%;
+      }
+      .nav-links a {
+        display: block;
+        font-size: 0.85rem;
+        padding: 10px 8px;
+      }
+      .nav-cta {
+        text-align: center;
+        width: 100%;
+        padding: 11px 14px;
+        box-shadow: 2px 2px 0 var(--white);
+      }
       .hero { padding: 48px 28px; }
       .work-grid { grid-template-columns: 1fr; }
       .featured-work {
@@ -553,7 +610,6 @@
       .about-section { grid-template-columns: 1fr; }
       .about-left { border-right: none; border-bottom: var(--border); }
       footer { flex-direction: column; text-align: center; }
-      .nav-links { gap: 16px; }
     }
 
     /* SCROLL REVEAL */
@@ -573,7 +629,8 @@
   <!-- NAV -->
   <nav>
     <a href="index.html" class="nav-logo">jspenaq</a>
-    <ul class="nav-links">
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav-links" aria-label="Toggle navigation">Menu</button>
+    <ul class="nav-links" id="site-nav-links">
       <li><a href="work.html">Work</a></li>
       <li><a href="https://jspenaq.dev" target="_blank">Security Consulting</a></li>
       <li><a href="https://github.com/jspenaq" target="_blank">GitHub</a></li>
@@ -752,6 +809,31 @@
   </footer>
 
   <script>
+    // Mobile nav toggle
+    const navToggle = document.querySelector('.nav-toggle');
+    const navLinks = document.querySelector('#site-nav-links');
+
+    if (navToggle && navLinks) {
+      navToggle.addEventListener('click', () => {
+        const isOpen = navLinks.classList.toggle('is-open');
+        navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+
+      navLinks.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => {
+          navLinks.classList.remove('is-open');
+          navToggle.setAttribute('aria-expanded', 'false');
+        });
+      });
+
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 900) {
+          navLinks.classList.remove('is-open');
+          navToggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+
     // Scroll reveal
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(e => {
