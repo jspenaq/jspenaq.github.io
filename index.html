@@ -408,7 +408,27 @@
       text-align: right;
     }
     .featured-footer-link .work-link {
-      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      background: var(--white);
+      color: var(--black);
+      border: 4px solid var(--black);
+      box-shadow: 10px 10px 0 var(--black);
+      padding: 18px 34px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.2rem, 2.4vw, 1.8rem);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+    .featured-footer-link .work-link:hover {
+      transform: translate(2px, 2px);
+      box-shadow: 6px 6px 0 var(--black);
+      text-decoration: none;
     }
 
     /* ABOUT */
@@ -523,6 +543,12 @@
         width: 62px;
         height: 62px;
         font-size: 1.8rem;
+      }
+      .featured-footer-link .work-link {
+        width: 100%;
+        padding: 18px 20px;
+        font-size: clamp(1.1rem, 6vw, 1.45rem);
+        box-shadow: 6px 6px 0 var(--black);
       }
       .about-section { grid-template-columns: 1fr; }
       .about-left { border-right: none; border-bottom: var(--border); }
@@ -641,10 +667,10 @@
           <span class="tag tag-backend">Backend</span>
         </div>
         <p class="work-desc">
-          Production-ready Docker environments for AI/ML workflows.
-          Containerized Python + GPU support for model training and inference.
+          CLI para operar entornos Docker de IA con lenguaje natural.
+          Orquesta contenedores, imágenes y workflows reproducibles para desarrollo y pruebas.
         </p>
-        <div class="work-evidence">Impact: Faster deployment</div>
+        <div class="work-evidence">CLI + Docker workflows</div>
         <div class="work-meta">
           <a href="https://github.com/jspenaq/docker-ai" class="work-link">GitHub →</a>
           <span class="work-tech">Python · React</span>
@@ -659,10 +685,10 @@
         </div>
         <h3 class="work-title">PokeCoach</h3>
         <p class="work-desc">
-          AI-powered Pokemon battle strategy assistant using LLMs.
-          Real-time analysis and recommendations for competitive play.
+          Evidence-first post-game coach para Pokémon TCG Live.
+          Convierte battle logs en reportes auditables con recomendaciones accionables.
         </p>
-        <div class="work-evidence">Latest: Feb 2026</div>
+        <div class="work-evidence">Evidence-first · Logs auditables</div>
         <div class="work-card-bottom">
           <div class="work-tech work-tech-left">Python · LLMs<br>WebSocket</div>
           <a href="work/pokecoach.html" class="work-arrow" aria-label="Open PokeCoach case study">↗</a>
