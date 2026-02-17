@@ -193,113 +193,223 @@
     @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
     /* FEATURED WORK */
-    .section-header {
-      padding: 28px 40px;
+    .featured-work {
+      padding: 68px 30px 74px;
       border-bottom: var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
     }
-    .section-title {
-      font-size: 0.82rem;
+    .featured-intro {
+      margin-bottom: 40px;
+    }
+    .featured-title {
+      font-size: clamp(3rem, 9vw, 7rem);
       font-weight: 700;
+      line-height: 0.9;
+      letter-spacing: -0.04em;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
+      margin-bottom: 24px;
     }
-    .section-link {
+    .featured-title-block {
+      display: inline-block;
+      background: var(--black);
+      color: var(--white);
+      padding: 8px 24px 12px;
+      transform: rotate(-1deg);
+      margin-top: 6px;
+    }
+    .featured-sub {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.9rem;
+      font-weight: 700;
+      line-height: 1.5;
+      max-width: 560px;
+      border-left: var(--border);
+      padding-left: 18px;
+      color: #1f1f1f;
+    }
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 56px;
+      align-items: stretch;
+    }
+    .work-card {
+      position: relative;
+      border: var(--border);
+      background: #f8f6f1;
+      box-shadow: 10px 10px 0 var(--black);
+      min-height: 560px;
+      display: flex;
+      flex-direction: column;
+      padding: 38px;
+      transition: transform 0.14s ease, box-shadow 0.14s ease;
+    }
+    .work-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border: 2px solid #d7d7d7;
+      transform: translate(8px, 8px);
+      z-index: -1;
+      pointer-events: none;
+    }
+    .work-card:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 12px 12px 0 var(--black);
+    }
+    .work-card-blue {
+      background: #dce1f8;
+    }
+    .work-card-no-echo::before {
+      display: none;
+    }
+    .work-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+    .tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.67rem;
+      font-weight: 700;
+      padding: 7px 14px;
+      border: var(--border);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      line-height: 1;
+    }
+    .tag-ai { background: #4a7ef0; color: var(--white); border-color: #4a7ef0; }
+    .tag-backend { background: var(--black); color: var(--white); }
+    .tag-frontend { background: var(--yellow); color: var(--black); border-color: var(--yellow); }
+    .work-title {
+      font-size: clamp(2.45rem, 3vw, 3.45rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.08;
+      margin-bottom: 14px;
+    }
+    .work-version {
+      margin-left: auto;
+      background: #5f8ef2;
+      color: var(--white);
+      border: var(--border);
+      box-shadow: 2px 2px 0 var(--black);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 8px 16px;
+      line-height: 1;
+    }
+    .work-desc {
+      color: #222;
+      font-size: clamp(1.65rem, 1.95vw, 2.1rem);
+      line-height: 1.45;
+      margin-bottom: 34px;
+      font-weight: 500;
+    }
+    .work-evidence {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--yellow);
+      border: var(--border);
+      box-shadow: 3px 3px 0 var(--black);
+      padding: 9px 18px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.86rem;
+      font-weight: 700;
+      width: fit-content;
+      margin-top: auto;
+      margin-bottom: 26px;
+    }
+    .work-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      padding-top: 18px;
+      border-top: var(--border);
+    }
+    .work-link {
       font-family: 'Space Mono', monospace;
       font-size: 0.78rem;
       color: var(--black);
       text-decoration: none;
       font-weight: 700;
-      transition: color 0.15s;
+      letter-spacing: 0.02em;
     }
-    .section-link:hover { color: var(--yellow); }
-
-    .work-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 0;
-    }
-    .work-card {
-      padding: 40px;
-      border-right: var(--border);
-      border-bottom: var(--border);
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      transition: background 0.2s;
-      text-decoration: none;
-      color: inherit;
-      min-height: 320px;
-    }
-    .work-card:hover { background: #f0ebe0; }
-    .work-card:nth-child(3n) { border-right: none; }
-    .work-card:nth-last-child(-n+3) { border-bottom: none; }
-
-    .work-tags {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    .tag {
+    .work-link:hover { text-decoration: underline; }
+    .work-tech {
       font-family: 'Space Mono', monospace;
-      font-size: 0.65rem;
+      font-size: 0.78rem;
+      color: #6d6d6d;
       font-weight: 700;
-      padding: 4px 10px;
-      border: 1.5px solid var(--black);
+      text-align: right;
+    }
+    .work-tech-left { text-align: left; }
+    .work-primary-link {
+      background: var(--black);
+      color: var(--white);
+      text-decoration: none;
+      font-size: 1.05rem;
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.04em;
+      text-align: center;
+      padding: 17px 18px;
+      border: var(--border);
+      box-shadow: 4px 4px 0 #888;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
     }
-    .tag-security { background: var(--red); color: var(--white); border-color: var(--red); }
-    .tag-ai { background: var(--blue); color: var(--white); border-color: var(--blue); }
-    .tag-backend { background: var(--black); color: var(--white); }
-    .tag-frontend { background: var(--yellow); color: var(--black); border-color: var(--yellow); }
-    .tag-oss { background: var(--green); color: var(--white); border-color: var(--green); }
-
-    .work-title {
-      font-size: 1.5rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      line-height: 1.2;
+    .work-primary-link:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 var(--black);
     }
-    .work-desc {
-      font-size: 0.92rem;
-      color: #4a4a4a;
-      line-height: 1.6;
-      flex-grow: 1;
-    }
-    .work-evidence {
+    .work-arrow {
+      width: 76px;
+      height: 76px;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      background: var(--yellow);
+      justify-content: center;
+      background: var(--black);
+      color: var(--white);
       border: var(--border);
-      padding: 5px 12px;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      font-weight: 700;
-      width: fit-content;
-      box-shadow: 2px 2px 0 var(--black);
-    }
-    .work-meta {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      margin-top: auto;
-      padding-top: 12px;
-      border-top: 1.5px solid #ddd;
-    }
-    .work-link {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.75rem;
-      color: var(--black);
       text-decoration: none;
-      font-weight: 700;
-      transition: color 0.15s;
+      font-size: 2.15rem;
+      line-height: 1;
+      box-shadow: 4px 4px 0 #888;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+      flex-shrink: 0;
     }
-    .work-link:hover { color: var(--blue); }
-    .work-link::after { content: ' →'; }
+    .work-arrow:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 var(--black);
+    }
+    .work-title-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .work-card-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 14px;
+    }
+    .work-card-third {
+      box-shadow: 10px 10px 0 var(--yellow);
+    }
+    .work-card-third .work-meta {
+      border-top: 2px dashed #c7c7c7;
+      padding-top: 22px;
+    }
+    .featured-footer-link {
+      margin-top: 30px;
+      text-align: right;
+    }
+    .featured-footer-link .work-link {
+      font-size: 0.9rem;
+    }
 
     /* ABOUT */
     .about-section {
@@ -389,9 +499,31 @@
     @media (max-width: 900px) {
       .hero { padding: 48px 28px; }
       .work-grid { grid-template-columns: 1fr; }
-      .work-card { border-right: none; }
-      .work-card:nth-child(n) { border-bottom: var(--border); }
-      .work-card:last-child { border-bottom: none; }
+      .featured-work {
+        padding: 48px 20px 54px;
+      }
+      .work-card {
+        min-height: 0;
+        padding: 26px;
+        box-shadow: 6px 6px 0 var(--black);
+      }
+      .work-card-third {
+        box-shadow: 6px 6px 0 var(--yellow);
+      }
+      .work-title {
+        font-size: clamp(2rem, 10vw, 2.9rem);
+      }
+      .work-desc {
+        font-size: clamp(1.25rem, 6vw, 1.65rem);
+      }
+      .work-primary-link {
+        font-size: 0.95rem;
+      }
+      .work-arrow {
+        width: 62px;
+        height: 62px;
+        font-size: 1.8rem;
+      }
       .about-section { grid-template-columns: 1fr; }
       .about-left { border-right: none; border-bottom: var(--border); }
       footer { flex-direction: column; text-align: center; }
@@ -470,16 +602,20 @@
   </div>
 
   <!-- FEATURED WORK -->
-  <section class="reveal">
-    <div class="section-header">
-      <h2 class="section-title">Featured Work</h2>
-      <a href="work.html" class="section-link">View all projects →</a>
+  <section class="featured-work reveal">
+    <div class="featured-intro">
+      <h2 class="featured-title">
+        Featured<br>
+        <span class="featured-title-block">Work</span>
+      </h2>
+      <p class="featured-sub">
+        Building secure & scalable systems with AI. Check out selected case studies below.
+      </p>
     </div>
-
     <div class="work-grid">
 
       <!-- PROJECT 1: LolSapiens -->
-      <a href="work/lolsapiens.html" class="work-card">
+      <article class="work-card">
         <div class="work-tags">
           <span class="tag tag-frontend">Frontend</span>
           <span class="tag tag-backend">Backend</span>
@@ -490,33 +626,33 @@
           Desktop app for League of Legends with AI-powered build recommendations.
           Python backend + React + TypeScript frontend with Electron.
         </p>
-        <div class="work-evidence">⭐ 8 stars · 5 forks</div>
-        <div class="work-meta">
-          <a href="https://github.com/jspenaq/LolSapiens" class="work-link" onclick="event.stopPropagation()">GitHub</a>
-          <span style="color:#aaa;font-size:0.7rem">Python · React · TypeScript</span>
-        </div>
-      </a>
+        <div class="work-evidence">⭐ 8 stars</div>
+        <a href="work/lolsapiens.html" class="work-primary-link">View Case Study</a>
+      </article>
 
       <!-- PROJECT 2: docker-ai -->
-      <a href="work/docker-ai.html" class="work-card">
+      <article class="work-card work-card-blue work-card-no-echo">
+        <div class="work-title-row">
+          <h3 class="work-title">docker-ai</h3>
+          <span class="work-version">v1.0.4</span>
+        </div>
         <div class="work-tags">
           <span class="tag tag-ai">AI</span>
           <span class="tag tag-backend">Backend</span>
         </div>
-        <h3 class="work-title">docker-ai</h3>
         <p class="work-desc">
           Production-ready Docker environments for AI/ML workflows.
           Containerized Python + GPU support for model training and inference.
         </p>
         <div class="work-evidence">Impact: Faster deployment</div>
         <div class="work-meta">
-          <a href="https://github.com/jspenaq/docker-ai" class="work-link" onclick="event.stopPropagation()">GitHub</a>
-          <span style="color:#aaa;font-size:0.7rem">Python · Docker</span>
+          <a href="https://github.com/jspenaq/docker-ai" class="work-link">GitHub →</a>
+          <span class="work-tech">Python · React</span>
         </div>
-      </a>
+      </article>
 
       <!-- PROJECT 3: PokeCoach -->
-      <a href="work/pokecoach.html" class="work-card">
+      <article class="work-card work-card-third">
         <div class="work-tags">
           <span class="tag tag-ai">AI</span>
           <span class="tag tag-backend">Backend</span>
@@ -527,12 +663,19 @@
           Real-time analysis and recommendations for competitive play.
         </p>
         <div class="work-evidence">Latest: Feb 2026</div>
-        <div class="work-meta">
-          <a href="https://github.com/jspenaq/PokeCoach" class="work-link" onclick="event.stopPropagation()">GitHub</a>
-          <span style="color:#aaa;font-size:0.7rem">Python · LLMs</span>
+        <div class="work-card-bottom">
+          <div class="work-tech work-tech-left">Python · LLMs<br>WebSocket</div>
+          <a href="work/pokecoach.html" class="work-arrow" aria-label="Open PokeCoach case study">↗</a>
         </div>
-      </a>
+        <div class="work-meta">
+          <a href="https://github.com/jspenaq/PokeCoach" class="work-link">GitHub →</a>
+          <span class="work-tech">Python · LLMs</span>
+        </div>
+      </article>
 
+    </div>
+    <div class="featured-footer-link">
+      <a href="work.html" class="work-link">View all projects →</a>
     </div>
   </section>
 
