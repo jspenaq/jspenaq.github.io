@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Juan Sebastián Peña portfolio preview">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a0a0a"/>
+      <stop offset="100%" stop-color="#1a1a1a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect x="72" y="72" width="1056" height="486" rx="0" fill="#f5f0e8" stroke="#0a0a0a" stroke-width="6"/>
+  <rect x="108" y="118" width="320" height="46" fill="#f5e642" stroke="#0a0a0a" stroke-width="4"/>
+  <text x="124" y="148" font-family="Space Grotesk, Arial, sans-serif" font-size="28" font-weight="700" fill="#0a0a0a">jspenaq</text>
+  <text x="108" y="240" font-family="Space Grotesk, Arial, sans-serif" font-size="62" font-weight="700" fill="#0a0a0a">Juan Sebastián Peña</text>
+  <text x="108" y="304" font-family="Space Grotesk, Arial, sans-serif" font-size="40" font-weight="700" fill="#0a0a0a">Developer Portfolio</text>
+  <text x="108" y="372" font-family="Space Mono, monospace" font-size="28" fill="#202020">AI Engineering · Backend · DevOps · Security</text>
+  <rect x="108" y="424" width="540" height="58" fill="#0a0a0a" stroke="#0a0a0a" stroke-width="2"/>
+  <text x="128" y="462" font-family="Space Grotesk, Arial, sans-serif" font-size="30" font-weight="700" fill="#f5f0e8">https://jspenaq.github.io</text>
+</svg>
