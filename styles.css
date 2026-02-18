@@ -409,7 +409,8 @@
       gap: 14px;
     }
     .work-card-third {
-      box-shadow: 10px 10px 0 var(--yellow);
+      /* box-shadow: 10px 10px 0 var(--yellow); */
+      box-shadow: 10px 10px 0 var(--black);
     }
     .work-card-third .work-meta {
       border-top: 2px dashed #c7c7c7;
@@ -774,7 +775,7 @@
     .bento-card.large .work-title { font-size: 2rem; }
 
     .work-desc {
-      font-size: 0.9rem;
+      font-size: 1rem;
       color: #4a4a4a;
       line-height: 1.6;
       flex-grow: 1;
